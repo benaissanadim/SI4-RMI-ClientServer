@@ -3,6 +3,8 @@ package services;
 import contrats.IConnection;
 import contrats.IVODService;
 import contrats.MovieDesc;
+import exceptions.InvalidCredentialsException;
+import exceptions.SignUpFailed;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -42,7 +44,7 @@ public class ClientRMI  {
                 } while (!verify);
             }
 
-            boolean verifySignIn = false;
+            boolean verifySignUp = false;
             IVODService vodLoginStub = null;
 
             switch (param){
@@ -50,34 +52,45 @@ public class ClientRMI  {
                     System.out.println("\n\tEXITING... ");
                     exit(0);
                 case 1 :
-                    System.out.println("\n***** CREATION ACCOUNT PAGE ***** ");
-                    System.out.print("\tChoose mail : ");
-                    String mail = sc.next();
-                    System.out.print("\tchoose password : ");
-                    String pwd = sc.next();
-                    verifySignIn = stubCNX.signUp(mail,pwd);
-                    if(verifySignIn){
-                        System.out.println("Account created successfully");
+                    while (!verifySignUp) {
+                        try {
+                            System.out.println("\n***** CREATION ACCOUNT PAGE ***** ");
+                            System.out.print("\tChoose mail : ");
+                            String mail = sc.next();
+                            System.out.print("\tchoose password : ");
+                            String pwd = sc.next();
+                            verifySignUp = stubCNX.signUp(mail, pwd);
+                            if (verifySignUp) {
+                                System.out.println("Account created successfully ! ");
+                            } else {
+                                throw new SignUpFailed("An account already exist with this email\nPlease try again ...");
+                            }
+                        } catch (Exception exception) {
+                            System.out.println(exception.getMessage());
+                        }
                     }
-                    else{
-                        System.out.println("Error account not created");
-                        exit(0);
-                    }
+
                     
                 case 2 :
-                    System.out.println("\n***** LOGIN ACCOUNT PAGE ***** ");
-                    System.out.print("\tEnter your mail : ");
-                    String usernameLogin = sc.next();
-                    System.out.print("\tEnter your password : ");
-                    String pwdLogin = sc.next();
-                    vodLoginStub = stubCNX.login(usernameLogin,pwdLogin);
-                    if(vodLoginStub != null){
-                        System.out.println("Login successfully");
+                    while(vodLoginStub==null) {
+                        try {
+                            System.out.println("\n***** LOGIN ACCOUNT PAGE ***** ");
+                            System.out.print("\tEnter your mail : ");
+                            String usernameLogin = sc.next();
+                            System.out.print("\tEnter your password : ");
+                            String pwdLogin = sc.next();
+                            vodLoginStub = stubCNX.login(usernameLogin, pwdLogin);
+                            if (vodLoginStub != null) {
+                                System.out.println("Login successfully");
+                            } else {
+                                throw new InvalidCredentialsException("Error while login\nPlease try again ...");
+                            }
+                            break;
+                        } catch (Exception exception) {
+                            System.out.println(exception.getMessage());
+                        }
                     }
-                    else{
-                        System.out.println("Error while logging");
-                    }
-                    break;
+
             }
             if(vodLoginStub!=null){
                 System.out.println("\n***** WELCOME TO VOD-PLATFORM  *****\n ");
