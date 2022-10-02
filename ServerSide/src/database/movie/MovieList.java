@@ -1,10 +1,12 @@
 package database.movie;
 
 import contrats.MovieDesc;
+import contrats.MovieDescExtended;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.Serializable;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
@@ -23,7 +25,11 @@ public class MovieList implements Serializable {
             while ((readLine = br.readLine()) != null) {
                 System.out.println(readLine);
                 String[] s = readLine.split(",");
-                moviesDesc.add(new MovieDesc(s[0],s[1], s[2], s[3].getBytes()));
+                if (s.length == 4) {
+                    moviesDesc.add(new MovieDesc(s[0],s[1], s[2], s[3].getBytes(StandardCharsets.US_ASCII)));
+                } else if(s.length == 5){
+                    moviesDesc.add(new MovieDescExtended(s[0],s[1], s[2], s[3].getBytes(StandardCharsets.US_ASCII), s[4].getBytes(StandardCharsets.US_ASCII)));
+                }
             }
             br.close();
         }
