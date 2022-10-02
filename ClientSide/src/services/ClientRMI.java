@@ -2,10 +2,12 @@ package services;
 
 import contrats.IConnection;
 import contrats.IVODService;
+import contrats.MovieDesc;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.List;
 import java.util.Scanner;
 
 import static java.lang.System.exit;
@@ -20,10 +22,7 @@ public class ClientRMI  {
             // Getting the registry
             Registry registry = LocateRegistry.getRegistry(2001);
             IConnection stubCNX = (IConnection) registry.lookup("CNX");
-            /*IVODService stubVOD = (IVODService) registry.lookup("VOD");
-            List<MovieDesc> movies = stubVOD.viewCatalog();
-            movies.forEach(System.out::println);*/
-
+            //IVODService stubVOD = (IVODService) registry.lookup("VOD");
 
             System.out.println("\n***** WELCOME PAGE *****");
 
@@ -44,7 +43,7 @@ public class ClientRMI  {
             }
 
             boolean verifySignIn = false;
-            IVODService verifyLogin = null;
+            IVODService vodLoginStub = null;
 
             switch (param){
                 case 0 :
@@ -71,8 +70,8 @@ public class ClientRMI  {
                     String usernameLogin = sc.next();
                     System.out.print("\tEnter your password : ");
                     String pwdLogin = sc.next();
-                    verifyLogin = stubCNX.login(usernameLogin,pwdLogin);
-                    if(verifyLogin != null){
+                    vodLoginStub = stubCNX.login(usernameLogin,pwdLogin);
+                    if(vodLoginStub != null){
                         System.out.println("Login successfully");
                     }
                     else{
@@ -80,8 +79,15 @@ public class ClientRMI  {
                     }
                     break;
             }
-            if(verifyLogin!=null || verifySignIn){
-                System.out.println("\n***** WELCOME TO VOD-PLATFORM  ***** ");
+            if(vodLoginStub!=null){
+                System.out.println("\n***** WELCOME TO VOD-PLATFORM  *****\n ");
+                List<MovieDesc> movies = vodLoginStub.viewCatalog();
+                movies.forEach(System.out::println);
+
+                System.out.println("\nChoose your movie by his isbn : ");
+                String movieChosen = sc.next();
+                vodLoginStub.playmovie(movieChosen, new ClientBox(3));
+
             }
 
         } catch (Exception e) {

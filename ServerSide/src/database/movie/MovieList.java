@@ -5,9 +5,12 @@ import contrats.MovieDesc;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-public class MovieList extends ArrayList<MovieDesc> implements Serializable {
+public class MovieList implements Serializable {
+
+    ArrayList<MovieDesc> moviesDesc = new ArrayList<>();
 
     public MovieList() {
         init();
@@ -20,7 +23,7 @@ public class MovieList extends ArrayList<MovieDesc> implements Serializable {
             while ((readLine = br.readLine()) != null) {
                 System.out.println(readLine);
                 String[] s = readLine.split(",");
-                add(new MovieDesc(s[0],s[1], s[2], null));
+                moviesDesc.add(new MovieDesc(s[0],s[1], s[2], s[3].getBytes()));
             }
             br.close();
         }
@@ -30,7 +33,10 @@ public class MovieList extends ArrayList<MovieDesc> implements Serializable {
     }
 
     public MovieDesc findMovieByIsbn(String isbn) {
-        return stream().filter(m-> m.getIsbn().equals(isbn)).findAny().orElse(null);
+        return moviesDesc.stream().filter(m-> m.getIsbn().equals(isbn)).findAny().orElse(null);
     }
 
+    public ArrayList<MovieDesc> getMoviesDesc() {
+        return moviesDesc;
+    }
 }

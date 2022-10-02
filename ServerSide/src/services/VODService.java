@@ -8,6 +8,7 @@ import database.movie.MovieList;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.List;
 
 public class VODService extends UnicastRemoteObject implements IVODService {
@@ -25,7 +26,7 @@ public class VODService extends UnicastRemoteObject implements IVODService {
     }
 
     public List<MovieDesc> viewCatalog() {
-        return movies;
+        return movies.getMoviesDesc();
     }
 
     public Bill playmovie(String isbn, IClientBox box) throws RemoteException {
@@ -33,6 +34,7 @@ public class VODService extends UnicastRemoteObject implements IVODService {
         if(movie != null){
             box.stream(movie.getFilmBytes());
         }
+        System.out.println("Server received film : "+isbn);
         return null;
     }
 }

@@ -16,8 +16,8 @@ public class ServerRMI  {
             IConnection cnx = new Connection();
             Registry registry = LocateRegistry.createRegistry(2001);
             IVODService vod = new VODService();
-            registry.bind("CNX", cnx);
-            registry.bind("VOD", vod);
+            registry.rebind("CNX", cnx);
+            registry.rebind("VOD", vod);
 
             System.out.println("Server is ready...");
         }

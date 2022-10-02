@@ -6,9 +6,9 @@ public class MovieDesc implements Serializable {
     String movieName;
     String isbn;
     String synopsis;
-    Byte[] filmBytes;
+    byte[] filmBytes;
 
-    public MovieDesc(String movieName, String isbn, String synopsis, Byte[] filmBytes) {
+    public MovieDesc(String movieName, String isbn, String synopsis, byte[] filmBytes) {
         this.movieName = movieName;
         this.isbn = isbn;
         this.synopsis = synopsis;
@@ -27,7 +27,7 @@ public class MovieDesc implements Serializable {
         return synopsis;
     }
 
-    public Byte[] getFilmBytes() {
+    public byte[] getFilmBytes() {
         return filmBytes;
     }
 

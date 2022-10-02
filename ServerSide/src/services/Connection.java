@@ -7,7 +7,10 @@ import exceptions.InvalidCredentialsException;
 import exceptions.SignInFailed;
 
 import java.io.*;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 public class Connection extends UnicastRemoteObject implements IConnection, Serializable {
@@ -38,10 +41,18 @@ public class Connection extends UnicastRemoteObject implements IConnection, Seri
     }
 
     public IVODService login(String mail, String pwd) throws InvalidCredentialsException, RemoteException {
-        clientList = new ClientList();
-        if(!clientList.findMailPwd(mail,pwd)){
-            throw new InvalidCredentialsException("account doesn't exist");
+        try {
+            // To get the new client list if a user just signed up
+            clientList = new ClientList();
+            Registry registry = LocateRegistry.getRegistry(2001);
+            IVODService stubVOD = (IVODService) registry.lookup("VOD");
+            if (!clientList.findMailPwd(mail, pwd)) {
+                throw new InvalidCredentialsException("account doesn't exist");
+            }
+            return stubVOD;
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
         }
-        return this.vodService;
+        return null;
     }
 }
