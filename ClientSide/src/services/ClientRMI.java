@@ -23,9 +23,9 @@ public class ClientRMI  {
             // Getting the registry
             Registry registry = LocateRegistry.getRegistry(2001);
             IConnection stubCNX = (IConnection) registry.lookup("CNX");
-            IVODService stubVOD = (IVODService) registry.lookup("VOD");
+            /*IVODService stubVOD = (IVODService) registry.lookup("VOD");
             List<MovieDesc> movies = stubVOD.viewCatalog();
-            movies.forEach(System.out::println);
+            movies.forEach(System.out::println);*/
 
 
             System.out.println("\n***** WELCOME PAGE *****");
@@ -55,11 +55,11 @@ public class ClientRMI  {
                     exit(0);
                 case 1 :
                     System.out.println("\n***** CREATION ACCOUNT PAGE ***** ");
-                    System.out.print("\tChoose username : ");
-                    String username = sc.next();
+                    System.out.print("\tChoose mail : ");
+                    String mail = sc.next();
                     System.out.print("\tchoose password : ");
                     String pwd = sc.next();
-                    verifySignIn = stubCNX.signIn(username,pwd);
+                    verifySignIn = stubCNX.signIn(mail,pwd);
                     if(verifySignIn){
                         System.out.println("Account created successfully");
                     }
@@ -69,7 +69,7 @@ public class ClientRMI  {
                     break;
                 case 2 :
                     System.out.println("\n***** LOGIN ACCOUNT PAGE ***** ");
-                    System.out.print("\tEnter your username : ");
+                    System.out.print("\tEnter your mail : ");
                     String usernameLogin = sc.next();
                     System.out.print("\tEnter your password : ");
                     String pwdLogin = sc.next();
