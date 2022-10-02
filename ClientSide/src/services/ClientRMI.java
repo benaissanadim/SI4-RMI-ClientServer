@@ -2,13 +2,10 @@ package services;
 
 import contrats.IConnection;
 import contrats.IVODService;
-import contrats.MovieDesc;
 
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.List;
 import java.util.Scanner;
 
 import static java.lang.System.exit;
@@ -47,7 +44,7 @@ public class ClientRMI  {
             }
 
             boolean verifySignIn = false;
-            boolean verifyLogin = false;
+            IVODService verifyLogin = null;
 
             switch (param){
                 case 0 :
@@ -59,14 +56,15 @@ public class ClientRMI  {
                     String mail = sc.next();
                     System.out.print("\tchoose password : ");
                     String pwd = sc.next();
-                    verifySignIn = stubCNX.signIn(mail,pwd);
+                    verifySignIn = stubCNX.signUp(mail,pwd);
                     if(verifySignIn){
                         System.out.println("Account created successfully");
                     }
                     else{
                         System.out.println("Error account not created");
+                        exit(0);
                     }
-                    break;
+                    
                 case 2 :
                     System.out.println("\n***** LOGIN ACCOUNT PAGE ***** ");
                     System.out.print("\tEnter your mail : ");
@@ -74,7 +72,7 @@ public class ClientRMI  {
                     System.out.print("\tEnter your password : ");
                     String pwdLogin = sc.next();
                     verifyLogin = stubCNX.login(usernameLogin,pwdLogin);
-                    if(verifyLogin){
+                    if(verifyLogin != null){
                         System.out.println("Login successfully");
                     }
                     else{
@@ -82,7 +80,7 @@ public class ClientRMI  {
                     }
                     break;
             }
-            if(verifyLogin || verifySignIn){
+            if(verifyLogin!=null || verifySignIn){
                 System.out.println("\n***** WELCOME TO VOD-PLATFORM  ***** ");
             }
 

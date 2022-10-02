@@ -1,6 +1,7 @@
 package contrats;
 
 import java.io.Serializable;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Arrays;
 
 public class MovieDesc implements Serializable {

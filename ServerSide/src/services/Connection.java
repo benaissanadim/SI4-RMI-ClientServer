@@ -13,12 +13,13 @@ import java.rmi.server.UnicastRemoteObject;
 public class Connection extends UnicastRemoteObject implements IConnection, Serializable {
 
     private ClientList clientList;
+    private VODService vodService = new VODService();
 
     public Connection() throws RemoteException {
         clientList = new ClientList();
     }
 
-    public boolean signIn (String mail, String pwd) throws SignInFailed {
+    public boolean signUp(String mail, String pwd) throws SignInFailed {
             if(mail.isEmpty() || pwd.isEmpty())
                 return false;
             else if(clientList.findMail(mail)){
@@ -36,10 +37,11 @@ public class Connection extends UnicastRemoteObject implements IConnection, Seri
             return true;
     }
 
-    public boolean login(String mail, String pwd) throws InvalidCredentialsException, RemoteException {
+    public IVODService login(String mail, String pwd) throws InvalidCredentialsException, RemoteException {
+        clientList = new ClientList();
         if(!clientList.findMailPwd(mail,pwd)){
             throw new InvalidCredentialsException("account doesn't exist");
         }
-        return true;
+        return this.vodService;
     }
 }
