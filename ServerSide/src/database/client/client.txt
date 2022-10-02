@@ -1,9 +1,0 @@
-nadim,nadoumaa
-nadim1,nadim123
-salim,slouma
-nadimm,nadim88
-user1,1234
-test,test
-mail,mail
-ok,ok
-oki,oki

@@ -15,7 +15,6 @@ import java.rmi.server.UnicastRemoteObject;
 public class Connection extends UnicastRemoteObject implements IConnection, Serializable {
 
     private ClientList clientList;
-    private VODService vodService = new VODService();
 
     public Connection() throws RemoteException {
         clientList = new ClientList();
@@ -29,8 +28,8 @@ public class Connection extends UnicastRemoteObject implements IConnection, Seri
                 else if(clientList.findMail(mail)){
                     throw new SignUpFailed("a client with mail "+ mail + " already exists");
                 }
-                BufferedWriter bw = new BufferedWriter(new FileWriter("src/database/client/client.txt",true));
-                bw.write(mail + "," + pwd);
+                BufferedWriter bw = new BufferedWriter(new FileWriter("src/database/client/client.csv",true));
+                bw.write(mail + ";" + pwd);
                 bw.newLine();
                 bw.close();
                 return true;

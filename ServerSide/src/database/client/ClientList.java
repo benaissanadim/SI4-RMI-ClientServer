@@ -13,13 +13,14 @@ public class ClientList extends ArrayList<Client>{
 
     private void init()  {
         try{
-            BufferedReader br = new BufferedReader(new FileReader("src/database/client/client.txt"));
-            String readLine;
+            BufferedReader br = new BufferedReader(new FileReader("src/database/client/client.csv"));
+            String readLine = br.readLine();
             while ((readLine = br.readLine()) != null) {
-                String[] s = readLine.split(",");
+                String[] s = readLine.split(";");
                 add(new Client(s[0],s[1]));
             }
             br.close();
+
         }
         catch (Exception e){
             System.out.println(e);
