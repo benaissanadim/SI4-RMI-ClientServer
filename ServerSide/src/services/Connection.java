@@ -2,9 +2,11 @@ package services;
 
 import contrats.IConnection;
 import contrats.IVODService;
-import database.client.ClientList;
+import util.Parser;
+import util.clent.ClientList;
 import exceptions.InvalidCredentialsException;
 import exceptions.SignUpFailed;
+import util.clent.ClientParser;
 
 import java.io.*;
 import java.rmi.RemoteException;
@@ -28,17 +30,13 @@ public class Connection extends UnicastRemoteObject implements IConnection, Seri
                 else if(clientList.findMail(mail)){
                     throw new SignUpFailed("a client with mail "+ mail + " already exists");
                 }
-                BufferedWriter bw = new BufferedWriter(new FileWriter("src/database/client/client.csv",true));
-                bw.write(mail + ";" + pwd);
-                bw.newLine();
-                bw.close();
+                ClientParser.writeDataClient(mail,pwd);
                 return true;
             }
-            catch (Exception e){
-                System.out.println(e);
+            catch (Exception exception){
+                System.out.println(exception.getMessage());
                 return false;
             }
-
     }
 
     public IVODService login(String mail, String pwd) throws InvalidCredentialsException, RemoteException {

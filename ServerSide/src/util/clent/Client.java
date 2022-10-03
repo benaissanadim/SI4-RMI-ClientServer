@@ -1,4 +1,4 @@
-package database.client;
+package util.clent;
 
 import java.io.Serializable;
 

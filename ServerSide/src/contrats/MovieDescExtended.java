@@ -7,7 +7,7 @@ import java.util.Arrays;
 public class MovieDescExtended extends MovieDesc implements Serializable {
     byte[] teaser;
 
-    public MovieDescExtended(String movieName, String isbn, String synopsis, byte[] movie,byte[] teaser) throws RemoteException {
+    public MovieDescExtended(String movieName, String isbn, String synopsis, byte[] movie,byte[] teaser) {
         super(movieName, isbn, synopsis, movie);
         this.teaser = teaser;
     }

@@ -4,12 +4,10 @@ import contrats.IClientBox;
 import contrats.IVODService;
 import contrats.Bill;
 import contrats.MovieDesc;
-import database.movie.MovieList;
+import util.movie.MovieList;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class VODService extends UnicastRemoteObject implements IVODService {
@@ -33,13 +31,17 @@ public class VODService extends UnicastRemoteObject implements IVODService {
     public Bill playmovie(String isbn, IClientBox box) throws RemoteException {
         MovieDesc movie = movies.findMovieByIsbn(isbn);
         byte[] movieBytes = movie.getFilmBytes();
-        String filmBytes = new String(movieBytes);
+        Thread th = new Thread(()->{
+            try {
+                box.stream(movieBytes);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        });
 
         if(movie != null){
-            System.out.println(filmBytes);
             int chunk = 4; //chunk size to divide
             for(int i=0;i<movieBytes.length;i++){
-                //System.out.println(Arrays.toString(Arrays.copyOfRange(movieBytes, i, Math.min(movieBytes.length,i+chunk))));
                 System.out.println(movieBytes[i]);
                 box.stream(new byte[]{movieBytes[i]});
             }
