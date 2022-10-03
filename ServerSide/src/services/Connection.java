@@ -43,12 +43,10 @@ public class Connection extends UnicastRemoteObject implements IConnection, Seri
         try {
             // To get the new client list if a user just signed up
             clientList = new ClientList();
-            Registry registry = LocateRegistry.getRegistry(2001);
-            IVODService stubVOD = (IVODService) registry.lookup("VOD");
             if (!clientList.findMailPwd(mail, pwd)) {
                 throw new InvalidCredentialsException("account doesn't exist");
             }
-            return stubVOD;
+            return new VODService();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }

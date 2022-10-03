@@ -99,7 +99,7 @@ public class ClientRMI  {
 
                 System.out.println("\nChoose your movie by his isbn : ");
                 String movieChosen = sc.next();
-                vodLoginStub.playmovie(movieChosen, new ClientBox(3));
+                vodLoginStub.playmovie(movieChosen, new ClientBox());
 
             }
 
