@@ -18,11 +18,8 @@ public class MovieDescExtended extends MovieDesc implements Serializable {
 
     @Override
     public String toString() {
-        return "MovieDescExtended{" +
-                "movieName='" + movieName + '\'' +
-                ", isbn='" + isbn + '\'' +
-                ", synopsis='" + synopsis + '\'' +
-                ", teaser=" + Arrays.toString(teaser) +
-                '}';
+
+        return super.toString()+
+                "\tTeaser :" + Arrays.toString(teaser)+ "\n";
     }
 }

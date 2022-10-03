@@ -1,7 +1,6 @@
 package contrats;
 
 import java.io.Serializable;
-import java.rmi.RemoteException;
 import java.util.Arrays;
 
 public class MovieDescExtended extends MovieDesc implements Serializable {

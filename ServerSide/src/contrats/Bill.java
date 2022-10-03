@@ -19,4 +19,12 @@ public class Bill implements Serializable {
     public BigInteger getOutrageousPrice() {
         return outrageousPrice;
     }
+
+    @Override
+    public String toString() {
+        return "Bill{" +
+                "movieName='" + movieName + '\'' +
+                ", outrageousPrice=" + outrageousPrice +
+                '}';
+    }
 }

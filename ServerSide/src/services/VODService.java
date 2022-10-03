@@ -6,8 +6,10 @@ import contrats.Bill;
 import contrats.MovieDesc;
 import util.movie.MovieList;
 
+import java.math.BigInteger;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Arrays;
 import java.util.List;
 
 public class VODService extends UnicastRemoteObject implements IVODService {
@@ -31,16 +33,23 @@ public class VODService extends UnicastRemoteObject implements IVODService {
     public Bill playmovie(String isbn, IClientBox box) throws RemoteException {
         MovieDesc movieToPlay = movies.findMovieByIsbn(isbn);
         byte[] movieBytes = movieToPlay.getFilmBytes();
-        String filmBytes = new String(movieBytes);
         System.out.println("Server received film : "+isbn);
-
         if(movieToPlay != null){
-            System.out.println("all film bytes : "+filmBytes);
             int chunk = 4; //chunk size to divide
-            for(int i=0;i<movieBytes.length;i+=chunk){
-                box.stream(Arrays.copyOfRange(movieBytes, i, Math.min(movieBytes.length,i+chunk)));
-            }
+            box.stream(Arrays.copyOfRange(movieBytes, 0, Math.min(movieBytes.length,chunk)));
+            Thread th = new Thread(()->{
+                System.out.println("launching thread...");
+                for(int i=chunk;i<movieBytes.length;i+=chunk){
+                    try {
+                        Thread.sleep(200);
+                        box.stream(Arrays.copyOfRange(movieBytes, i, Math.min(movieBytes.length,i+chunk)));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            th.start();
         }
-        return null;
+        return new Bill(movieToPlay.getMovieName(),new BigInteger("50"));
     }
 }

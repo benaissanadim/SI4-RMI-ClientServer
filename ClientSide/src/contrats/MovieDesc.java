@@ -33,11 +33,10 @@ public class MovieDesc implements Serializable {
 
     @Override
     public String toString() {
-        return "MovieDesc{" +
-                "movieName='" + movieName + '\'' +
-                ", isbn='" + isbn + '\'' +
-                ", synopsis='" + synopsis + '\'' +
-                '}';
+        return "\n" +
+                "\tName : " + movieName + "\n" +
+                "\tIsbn : " + isbn + "\n" +
+                "\tSynopsis : " + synopsis + "\n" ;
     }
 
 }

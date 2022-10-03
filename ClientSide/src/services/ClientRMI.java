@@ -1,5 +1,6 @@
 package services;
 
+import contrats.Bill;
 import contrats.IConnection;
 import contrats.IVODService;
 import contrats.MovieDesc;
@@ -24,15 +25,14 @@ public class ClientRMI  {
             // Getting the registry
             Registry registry = LocateRegistry.getRegistry(2001);
             IConnection stubCNX = (IConnection) registry.lookup("CNX");
-            //IVODService stubVOD = (IVODService) registry.lookup("VOD");
 
-            System.out.println("\n***** WELCOME PAGE *****");
+            System.out.println("\n************************************************** WELCOME_PAGE VOD_PLATFORM **************************************************");
 
             int param =0;
             boolean verify = false;
             while(!verify) {
-                System.out.println("\n1: CRATE AN COMPTE");
-                System.out.println("2: LOGIN TO COMPTE");
+                System.out.println("\n1: CRATE AN ACCOUNT");
+                System.out.println("2: LOGIN TO YOUR ACCOUNT");
                 System.out.println("0: EXIT");
                 do {
                     System.out.print("\tPRESS HERE ==> ");
@@ -54,8 +54,8 @@ public class ClientRMI  {
                 case 1 :
                     while (!verifySignUp) {
                         try {
-                            System.out.println("\n***** CREATION ACCOUNT PAGE ***** ");
-                            System.out.print("\tChoose mail : ");
+                            System.out.println("\n*************** CREATION_ACCOUNT PAGE *************** ");
+                            System.out.print("\tChoose E-mail : ");
                             String mail = sc.next();
                             System.out.print("\tchoose password : ");
                             String pwd = sc.next();
@@ -74,8 +74,8 @@ public class ClientRMI  {
                 case 2 :
                     while(vodLoginStub==null) {
                         try {
-                            System.out.println("\n***** LOGIN ACCOUNT PAGE ***** ");
-                            System.out.print("\tEnter your mail : ");
+                            System.out.println("\n**************************************************** LOGIN_ACCOUNT PAGE ****************************************************");
+                            System.out.print("\tEnter your E-mail : ");
                             String usernameLogin = sc.next();
                             System.out.print("\tEnter your password : ");
                             String pwdLogin = sc.next();
@@ -93,13 +93,20 @@ public class ClientRMI  {
 
             }
             if(vodLoginStub!=null){
-                System.out.println("\n***** WELCOME TO VOD-PLATFORM  *****\n ");
+                System.out.println("\n**************************************************** WELCOME TO VOD-PLATFORM  ****************************************************\n ");
                 List<MovieDesc> movies = vodLoginStub.viewCatalog();
-                movies.forEach(System.out::println);
+                int i =0;
+                for(MovieDesc movie : movies){
+                    System.out.print("----------------------------------------------------------- Movie ["+(++i)+"] -----------------------------------------------------------");
+                    System.out.print(movie);
+                    System.out.println("---------------------------------------------------------------------------------------------------------------------------------\n");
+                }
 
                 System.out.println("\nChoose your movie by his isbn : ");
                 String movieChosen = sc.next();
-                vodLoginStub.playmovie(movieChosen, new ClientBox());
+                System.out.println("\n\tStraming the movie ...");
+                Bill b = vodLoginStub.playmovie(movieChosen, new ClientBox());
+                System.out.println("\tHere is the bill of your movie :"+b);
 
             }
 

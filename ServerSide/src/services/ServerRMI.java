@@ -1,9 +1,7 @@
 package services;
 
 import contrats.IConnection;
-import contrats.IVODService;
 
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
@@ -15,9 +13,7 @@ public class ServerRMI  {
         try {
             IConnection cnx = new Connection();
             Registry registry = LocateRegistry.createRegistry(2001);
-            IVODService vod = new VODService();
             registry.rebind("CNX", cnx);
-            registry.rebind("VOD", vod);
 
             System.out.println("Server is ready...");
         }

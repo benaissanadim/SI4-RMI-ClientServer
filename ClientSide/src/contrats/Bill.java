@@ -1,8 +1,9 @@
 package contrats;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 
-public class Bill {
+public class Bill implements Serializable {
     String movieName;
     BigInteger outrageousPrice;
 
@@ -17,5 +18,13 @@ public class Bill {
 
     public BigInteger getOutrageousPrice() {
         return outrageousPrice;
+    }
+
+    @Override
+    public String toString() {
+        return "Bill{" +
+                "movieName='" + movieName + '\'' +
+                ", outrageousPrice=" + outrageousPrice +
+                '}';
     }
 }
