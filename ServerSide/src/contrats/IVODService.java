@@ -1,5 +1,7 @@
 package contrats;
 
+import exceptions.MovieNotFoundException;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -23,6 +25,7 @@ public interface IVODService extends Remote {
      * @param box the IClientBox
      * @return a bill of the moovie choosen
      * @throws RemoteException
+     * @throws MovieNotFoundException
      */
-    Bill playmovie(String isbn, IClientBox box) throws RemoteException;
+    Bill playmovie(String isbn, IClientBox box) throws RemoteException, MovieNotFoundException;
 }

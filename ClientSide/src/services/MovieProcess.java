@@ -7,6 +7,8 @@ import contrats.MovieDesc;
 import java.util.List;
 import java.util.Scanner;
 
+import static java.lang.System.exit;
+
 /**
  * a class for movie choose and display client side
  */
@@ -20,18 +22,24 @@ public class MovieProcess {
         this.stub = stub;
     }
 
+    /**
+     * choose movie client side
+     */
     public void chooseMovie() {
         try {
             System.out.println("\nChoose your movie by his isbn : ");
             String movieChosen = sc.next();
-            System.out.println("\n\tStraming the movie ...");
             Bill b = stub.playmovie(movieChosen, new ClientBox());
             System.out.println("\tHere is the bill of your movie :"+b);
         }catch (Exception e){
-            System.out.println(e.getMessage());
+            System.out.println("unavailble try again ...");
+            chooseMovie();
         }
     }
 
+    /**
+     * view catag client side
+     */
     public void viewCatalogue() {
         System.out.println("\n**************************************************** WELCOME TO VOD-PLATFORM  ****************************************************\n ");
         try {
