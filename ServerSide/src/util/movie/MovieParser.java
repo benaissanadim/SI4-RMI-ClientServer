@@ -8,6 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MovieParser {
+
+    /**
+     *  read data from the file movie.csv
+     * @return all movies data
+     */
     public static List<MovieDesc> readDataMovie(){
         List<MovieDesc> movies= new ArrayList<>();
         try {

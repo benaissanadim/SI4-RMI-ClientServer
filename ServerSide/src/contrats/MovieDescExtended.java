@@ -3,6 +3,9 @@ package contrats;
 import java.io.Serializable;
 import java.util.Arrays;
 
+/**
+ * a class representing movie having also a teaser
+ */
 public class MovieDescExtended extends MovieDesc implements Serializable {
     byte[] teaser;
 

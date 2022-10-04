@@ -9,6 +9,9 @@ import java.util.Scanner;
 
 import static java.lang.System.exit;
 
+/**
+ * a class for connection client side
+ */
 public class ConnectionProcess {
 
     IConnection stub;
@@ -20,6 +23,10 @@ public class ConnectionProcess {
         this.stub = stub;
     }
 
+    /**
+     * sig up client side
+     * @return vodService
+     */
     public IVODService signUp(){
         try {
             System.out.println("\n*************** CREATION_ACCOUNT PAGE *************** \n");
@@ -47,6 +54,10 @@ public class ConnectionProcess {
         }
     }
 
+    /**
+     * login client side
+     * @return vodService
+     */
     public IVODService login(){
         try {
             System.out.println("\n**************************************************** LOGIN_ACCOUNT PAGE ****************************************************");
@@ -77,6 +88,10 @@ public class ConnectionProcess {
 
     }
 
+    /**
+     * connect to vod platform (login/signup)
+     * @return vodService
+     */
     public IVODService connect(){
         System.out.println("\n************************************************** WELCOME_PAGE VOD_PLATFORM **************************************************");
         System.out.println("\n1: CRATE AN ACCOUNT");

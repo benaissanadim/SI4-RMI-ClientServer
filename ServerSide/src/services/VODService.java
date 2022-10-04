@@ -13,6 +13,9 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * a class  for the vod service
+ */
 public class VODService extends UnicastRemoteObject implements IVODService {
 
     MovieList movies = new MovieList();
@@ -20,16 +23,23 @@ public class VODService extends UnicastRemoteObject implements IVODService {
 
     protected VODService() throws RemoteException {}
 
+    /**
+     * make an instance of vod service
+     * @return a VODService
+     * @throws RemoteException
+     */
     public static VODService getInstance() throws RemoteException {
         if (vodService_instance == null)
             vodService_instance = new VODService();
         return vodService_instance;
     }
 
+    @Override
     public List<MovieDesc> viewCatalog() {
         return movies.getMoviesDesc();
     }
 
+    @Override
     public Bill playmovie(String isbn, IClientBox box) throws RemoteException {
         MovieDesc movieToPlay = movies.findMovieByIsbn(isbn);
         byte[] movieBytes = movieToPlay.getFilmBytes();

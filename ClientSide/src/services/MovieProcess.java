@@ -7,6 +7,9 @@ import contrats.MovieDesc;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * a class for movie choose and display client side
+ */
 public class MovieProcess {
 
     IVODService stub;

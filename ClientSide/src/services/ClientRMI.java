@@ -5,6 +5,9 @@ import contrats.*;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+/**
+ * class main for client
+ */
 public class ClientRMI  {
 
     private ClientRMI() {}

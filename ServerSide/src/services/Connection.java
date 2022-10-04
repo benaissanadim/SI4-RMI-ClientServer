@@ -13,6 +13,9 @@ import java.io.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
+/**
+ * a class for connection server side
+ */
 public class Connection extends UnicastRemoteObject implements IConnection, Serializable {
 
     private ClientList clientList;
@@ -21,24 +24,26 @@ public class Connection extends UnicastRemoteObject implements IConnection, Seri
         clientList = new ClientList();
     }
 
+    @Override
     public boolean signUp(String mail, String pwd) throws SignUpFailed {
-            try {
-                if(mail.isEmpty() || pwd.isEmpty())
-                    return false;
-                else if(clientList.findMail(mail)){
-                    throw new SignUpFailed("a client with mail "+ mail + " already exists");
-                }
-                ClientParser.writeDataClient(mail,pwd);
-                clientList.getClients().add(new Client(mail,pwd));
-                InfoDate.printInfo("A new account is created ");
-                return true;
-            }
-            catch (Exception exception){
-                System.out.println(exception.getMessage());
+        try {
+            if(mail.isEmpty() || pwd.isEmpty())
                 return false;
+            else if(clientList.findMail(mail)){
+                throw new SignUpFailed("a client with mail "+ mail + " already exists");
             }
+            ClientParser.writeDataClient(mail,pwd);
+            clientList.getClients().add(new Client(mail,pwd));
+            InfoDate.printInfo("A new account is created ");
+            return true;
+        }
+        catch (Exception exception){
+            System.out.println(exception.getMessage());
+            return false;
+        }
     }
 
+    @Override
     public IVODService login(String mail, String pwd) throws InvalidCredentialsException, RemoteException {
         try {
             if (!clientList.findMailPwd(mail, pwd)) {
