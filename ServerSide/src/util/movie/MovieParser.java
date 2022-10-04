@@ -21,7 +21,6 @@ public class MovieParser {
                     System.out.println("Error while parsing movie data !");
                 }
             });
-            System.out.println(movies);
         }
         catch (Exception exception){
             System.out.println(exception.getMessage());

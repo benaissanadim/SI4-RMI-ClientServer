@@ -1,14 +1,7 @@
 package util.clent;
 
-import contrats.MovieDesc;
-import util.Parser;
-import util.clent.Client;
 
-import java.awt.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -18,6 +11,10 @@ public class ClientList implements Serializable {
 
     public ClientList(){
       clients = ClientParser.readDataClient();
+    }
+
+    public List<Client> getClients() {
+        return clients;
     }
 
     public boolean findMail(String mail) {

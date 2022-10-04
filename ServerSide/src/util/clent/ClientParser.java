@@ -18,7 +18,6 @@ public class ClientParser {
                 System.out.println("Error while parsing client data !");
             }
         });
-        System.out.println(clients);
         return clients;
     }
 

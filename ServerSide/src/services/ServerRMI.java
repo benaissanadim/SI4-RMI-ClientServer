@@ -14,7 +14,6 @@ public class ServerRMI  {
             IConnection cnx = new Connection();
             Registry registry = LocateRegistry.createRegistry(2001);
             registry.rebind("CNX", cnx);
-
             System.out.println("Server is ready...");
         }
         catch(Exception e){

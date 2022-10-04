@@ -2,7 +2,8 @@ package services;
 
 import contrats.IConnection;
 import contrats.IVODService;
-import util.Parser;
+import util.InfoDate;
+import util.clent.Client;
 import util.clent.ClientList;
 import exceptions.InvalidCredentialsException;
 import exceptions.SignUpFailed;
@@ -10,8 +11,6 @@ import util.clent.ClientParser;
 
 import java.io.*;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 public class Connection extends UnicastRemoteObject implements IConnection, Serializable {
@@ -23,7 +22,6 @@ public class Connection extends UnicastRemoteObject implements IConnection, Seri
     }
 
     public boolean signUp(String mail, String pwd) throws SignUpFailed {
-
             try {
                 if(mail.isEmpty() || pwd.isEmpty())
                     return false;
@@ -31,6 +29,8 @@ public class Connection extends UnicastRemoteObject implements IConnection, Seri
                     throw new SignUpFailed("a client with mail "+ mail + " already exists");
                 }
                 ClientParser.writeDataClient(mail,pwd);
+                clientList.getClients().add(new Client(mail,pwd));
+                InfoDate.printInfo("A new account is created ");
                 return true;
             }
             catch (Exception exception){
@@ -41,12 +41,11 @@ public class Connection extends UnicastRemoteObject implements IConnection, Seri
 
     public IVODService login(String mail, String pwd) throws InvalidCredentialsException, RemoteException {
         try {
-            // To get the new client list if a user just signed up
-            clientList = new ClientList();
             if (!clientList.findMailPwd(mail, pwd)) {
                 throw new InvalidCredentialsException("account doesn't exist");
             }
-            return new VODService();
+            InfoDate.printInfo("The client " +mail+ " log in ");
+            return VODService.getInstance();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }

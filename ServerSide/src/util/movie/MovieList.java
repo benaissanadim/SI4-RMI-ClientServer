@@ -1,15 +1,8 @@
 package util.movie;
 
 import contrats.MovieDesc;
-import contrats.MovieDescExtended;
-import util.Parser;
-import util.clent.Client;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.Serializable;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MovieList implements Serializable {

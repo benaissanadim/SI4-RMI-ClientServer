@@ -4,6 +4,7 @@ import contrats.IClientBox;
 import contrats.IVODService;
 import contrats.Bill;
 import contrats.MovieDesc;
+import util.InfoDate;
 import util.movie.MovieList;
 
 import java.math.BigInteger;
@@ -22,7 +23,6 @@ public class VODService extends UnicastRemoteObject implements IVODService {
     public static VODService getInstance() throws RemoteException {
         if (vodService_instance == null)
             vodService_instance = new VODService();
-
         return vodService_instance;
     }
 
@@ -33,7 +33,7 @@ public class VODService extends UnicastRemoteObject implements IVODService {
     public Bill playmovie(String isbn, IClientBox box) throws RemoteException {
         MovieDesc movieToPlay = movies.findMovieByIsbn(isbn);
         byte[] movieBytes = movieToPlay.getFilmBytes();
-        System.out.println("Server received film : "+isbn);
+        InfoDate.printInfo("Server received film : "+isbn + " to stram");
         if(movieToPlay != null){
             int chunk = 4; //chunk size to divide
             box.stream(Arrays.copyOfRange(movieBytes, 0, Math.min(movieBytes.length,chunk)));
